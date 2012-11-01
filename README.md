@@ -30,6 +30,8 @@ Licensed under the GNU GPLv3
 * GetData.py
 
  Downloads data from the StackExchange API, applies the appropriate filtering and saves to a file (`data.json`).
+ 
+ Should be run as a cron job, to avoid hammering the API. Every 5 minutes is the recommended maximum.
 
 * TimeDiff.py
 

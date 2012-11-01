@@ -1,6 +1,8 @@
 #! /usr/bin/env python
 
 # Calculates data for a column in the results table and adds said column to the table.
+# Should be run as a cron job to avoid hammering the API.
+# Every 5 minutes is the recommended maximum.
 
 ### COPYRIGHT ###
 """
