@@ -12,6 +12,7 @@ Currently hosted at http://win8challengestats.co.cc
 ## Main code
 
 Copyright 2012 Bob Rao
+
 Licensed under the GNU GPLv3
 
 * stats.py
