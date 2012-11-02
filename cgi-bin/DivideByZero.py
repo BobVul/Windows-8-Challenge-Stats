@@ -1,7 +1,7 @@
 #! /usr/bin/env python
 
 # Overrides the builtin float and int classes to provide divide by zero support for floats.
-# Divisions by zero return float("NaN").
+# Divisions by zero return positive or negative `float("inf")`, depending on the sign of the numerator.
 
 ### COPYRIGHT ###
 """
@@ -32,25 +32,13 @@ import __builtin__
 class float(__builtin__.float):
     def __div__(self, other):
         if other == 0:
-            return float("NaN")
+            return float("+inf" if self >= 0 else "-inf")
         else:
             return __builtin__.float.__div__(self, other)
 
 class int(__builtin__.int):
     def __div__(self, other):
         if isinstance(other, __builtin__.float) and other == 0:
-            return float("NaN")
+            return float("+inf" if self >= 0 else "-inf")
         else:
             return __builtin__.int.__div__(self, other)
-
-# Does not work; the builtin is used instead of str(). Find a way to replace builtin?
-# Not necessary any more, since using float("NaN") now instead of str("NaN")?
-"""
-class str(__builtin__.str):
-    def __div__(self, other):
-        print self, other
-        if self == "NaN" and (isinstance(other, __builtin__.float) or other == "NaN"):
-            return "NaN"
-        else:
-            raise TypeError("unsupported operand type(s) for /: 'str' and 'float'")
-"""
