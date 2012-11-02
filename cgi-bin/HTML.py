@@ -79,9 +79,9 @@ __author__  = 'Philippe Lagadec'
 
 #--- REFERENCES ----------------------------------------------------------------
 
-# HTML 4.01 specs: http://www.w3.org/TR/html4/struct/tables.html
+# HTML 4.01 specs: http://www.w3.org/tr/html4/struct/tables.html
 
-# Colors: http://www.w3.org/TR/html4/types.html#type-color
+# Colors: http://www.w3.org/tr/html4/types.html#type-color
 
 # Columns alignement and style, one of the oldest and trickiest bugs in Mozilla:
 # https://bugzilla.mozilla.org/show_bug.cgi?id=915
@@ -98,12 +98,12 @@ TABLE_STYLE_THINBORDER = "border: 1px solid #000000; border-collapse: collapse;"
 
 class TableCell (object):
     """
-    a TableCell object is used to create a cell in a HTML table. (TD or TH)
+    a TableCell object is used to create a cell in a HTML table. (td or th)
 
     Attributes:
     - text: text in the cell (may contain HTML tags). May be any object which
             can be converted to a string using str().
-    - header: bool, false for a normal data cell (TD), true for a header cell (TH)
+    - header: bool, false for a normal data cell (td), true for a header cell (th)
     - bgcolor: str, background color
     - width: str, width
     - align: str, horizontal alignement (left, center, right, justify or char)
@@ -111,9 +111,9 @@ class TableCell (object):
     - charoff: str, see HTML specs
     - valign: str, vertical alignment (top|middle|bottom|baseline)
     - style: str, CSS style
-    - attribs: dict, additional attributes for the TD/TH tag
+    - attribs: dict, additional attributes for the td/th tag
 
-    Reference: http://www.w3.org/TR/html4/struct/tables.html#h-11.2.6
+    Reference: http://www.w3.org/tr/html4/struct/tables.html#h-11.2.6
     """
 
     def __init__(self, text="", bgcolor=None, header=False, width=None,
@@ -145,31 +145,31 @@ class TableCell (object):
         if self.style:   self.attribs['style']   = self.style
         for attr in self.attribs:
             attribs_str += ' %s="%s"' % (attr, self.attribs[attr])
-        if self.text:
+        if self.text or self.text == 0:
             text = str(self.text)
         else:
             # An empty cell should at least contain a non-breaking space
             text = '&nbsp;'
         if self.header:
-            return '  <TH%s>%s</TH>\n' % (attribs_str, text)
+            return '  <th%s>%s</th>\n' % (attribs_str, text)
         else:
-            return '  <TD%s>%s</TD>\n' % (attribs_str, text)
+            return '  <td%s>%s</td>\n' % (attribs_str, text)
 
 #-------------------------------------------------------------------------------
 
 class TableRow (object):
     """
-    a TableRow object is used to create a row in a HTML table. (TR tag)
+    a TableRow object is used to create a row in a HTML table. (tr tag)
 
     Attributes:
     - cells: list, tuple or any iterable, containing one string or TableCell
              object for each cell
-    - header: bool, true for a header row (TH), false for a normal data row (TD)
+    - header: bool, true for a header row (th), false for a normal data row (td)
     - bgcolor: str, background color
     - col_align, col_valign, col_char, col_charoff, col_styles: see Table class
-    - attribs: dict, additional attributes for the TR tag
+    - attribs: dict, additional attributes for the tr tag
 
-    Reference: http://www.w3.org/TR/html4/struct/tables.html#h-11.2.5
+    Reference: http://www.w3.org/tr/html4/struct/tables.html#h-11.2.5
     """
 
     def __init__(self, cells=None, bgcolor=None, header=False, attribs=None,
@@ -194,7 +194,7 @@ class TableRow (object):
         if self.bgcolor: self.attribs['bgcolor'] = self.bgcolor
         for attr in self.attribs:
             attribs_str += ' %s="%s"' % (attr, self.attribs[attr])
-        result = ' <TR%s>\n' % attribs_str
+        result = ' <tr%s>\n' % attribs_str
         for cell in self.cells:
             col = self.cells.index(cell)    # cell column index
             if not isinstance(cell, TableCell):
@@ -212,14 +212,14 @@ class TableRow (object):
             if self.col_styles and cell.style==None:
                 cell.style = self.col_styles[col]
             result += str(cell)
-        result += ' </TR>\n'
+        result += ' </tr>\n'
         return result
 
 #-------------------------------------------------------------------------------
 
 class Table (object):
     """
-    a Table object is used to create a HTML table. (TABLE tag)
+    a Table object is used to create a HTML table. (table tag)
 
     Attributes:
     - rows: list, tuple or any iterable, containing one iterable or TableRow
@@ -228,7 +228,7 @@ class Table (object):
     - border: str or int, border width
     - style: str, table style in CSS syntax (thin black borders by default)
     - width: str, width of the table on the page
-    - attribs: dict, additional attributes for the TABLE tag
+    - attribs: dict, additional attributes for the table tag
     - col_width: list or tuple defining width for each column
     - col_align: list or tuple defining horizontal alignment for each column
     - col_char: list or tuple defining alignment character for each column
@@ -236,7 +236,7 @@ class Table (object):
     - col_valign: list or tuple defining vertical alignment for each column
     - col_styles: list or tuple of HTML styles for each column
 
-    Reference: http://www.w3.org/TR/html4/struct/tables.html#h-11.2.1
+    Reference: http://www.w3.org/tr/html4/struct/tables.html#h-11.2.1
     """
 
     def __init__(self, rows=None, border='1', style=None, width=None,
@@ -273,11 +273,11 @@ class Table (object):
         if self.cellpadding:  self.attribs['cellpadding'] = self.cellpadding
         for attr in self.attribs:
             attribs_str += ' %s="%s"' % (attr, self.attribs[attr])
-        result = '<TABLE%s>\n' % attribs_str
+        result = '<table%s>\n' % attribs_str
         # insert column tags and attributes if specified:
         if self.col_width:
             for width in self.col_width:
-                result += '  <COL width="%s">\n' % width
+                result += '  <col width="%s">\n' % width
         # The following code would also generate column attributes for style
         # and alignement according to HTML4 specs,
         # BUT it is not supported completely (only width) on Mozilla Firefox:
@@ -302,7 +302,7 @@ class Table (object):
 ##                if self.col_valign[i]:
 ##                    col += ' valign="%s"' % self.col_valign[i]
 ##            except: pass
-##            result += '<COL%s>\n' % col
+##            result += '<col%s>\n' % col
         # First insert a header row if specified:
         if self.header_row:
             if not isinstance(self.header_row, TableRow):
@@ -326,7 +326,7 @@ class Table (object):
             if self.col_styles and not row.col_styles:
                 row.col_styles = self.col_styles
             result += str(row)
-        result += '</TABLE>'
+        result += '</table>'
         return result
 
 
@@ -335,14 +335,14 @@ class Table (object):
 class List (object):
     """
     a List object is used to create an ordered or unordered list in HTML.
-    (UL/OL tag)
+    (ul/ol tag)
 
     Attributes:
     - lines: list, tuple or any iterable, containing one string for each line
-    - ordered: bool, choice between an ordered (OL) or unordered list (UL)
-    - attribs: dict, additional attributes for the OL/UL tag
+    - ordered: bool, choice between an ordered (ol) or unordered list (ul)
+    - attribs: dict, additional attributes for the ol/ul tag
 
-    Reference: http://www.w3.org/TR/html4/struct/lists.html
+    Reference: http://www.w3.org/tr/html4/struct/lists.html
     """
 
     def __init__(self, lines=None, ordered=False, start=None, attribs=None):
@@ -364,11 +364,11 @@ class List (object):
         if self.start:  self.attribs['start'] = self.start
         for attr in self.attribs:
             attribs_str += ' %s="%s"' % (attr, self.attribs[attr])
-        if self.ordered: tag = 'OL'
-        else:            tag = 'UL'
+        if self.ordered: tag = 'ol'
+        else:            tag = 'ul'
         result = '<%s%s>\n' % (tag, attribs_str)
         for line in self.lines:
-            result += ' <LI>%s\n' % str(line)
+            result += ' <li>%s\n' % str(line)
         result += '</%s>\n' % tag
         return result
 
@@ -382,7 +382,7 @@ class List (object):
 ##    - url: str, URL of the link
 ##    - attribs: dict, additional attributes for the A tag
 ##
-##    Reference: http://www.w3.org/TR/html4
+##    Reference: http://www.w3.org/tr/html4
 ##    """
 ##
 ##    def __init__(self, text, url=None, attribs=None):
