@@ -200,7 +200,7 @@ class FillCols():
     def FloatToString(num, decimalplaces=2):
         a = list("%.*f" % (decimalplaces, num))
         a.reverse()
-        while len(a) > 1 and (a[0] == "0" or a[0] == "."):
+        while (len(a) > 1) and ("." in a) and (a[0] == "0" or a[0] == "."):
             del a[0]
         a.reverse()
         return "".join(a)
