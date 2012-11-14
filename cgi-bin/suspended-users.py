@@ -46,8 +46,6 @@ for user_id, user in data.iteritems():
         deleted[str(user_id)] = user
     elif "timed_penalty_date" in user:
         suspended[str(user_id)] = user
-    else:
-        active[str(user_id)] = user
                     
 # Generate formatted output
 import HTML
@@ -65,13 +63,6 @@ for user_id, user in deleted.iteritems(): # user_id may be absent from shallow_u
 table.append([HTML.TableCell("Suspended", header=True, valign="middle", attribs={"colspan":4})])
 
 for user in suspended.itervalues():
-    table.append(["<img src=\"%s\" alt=\"Gravatar\"></img>" % (user["profile_image"]),
-                  "<a href=\"%s\">%s</a>" % (user["link"], user["display_name"]),
-                  "user_id: %s" % (user["user_id"]),
-                  "user_type: %s" % (user["user_type"])])
-
-table.append([HTML.TableCell("Active", header=True, valign="middle", attribs={"colspan":4})])
-for user in active.itervalues():
     table.append(["<img src=\"%s\" alt=\"Gravatar\"></img>" % (user["profile_image"]),
                   "<a href=\"%s\">%s</a>" % (user["link"], user["display_name"]),
                   "user_id: %s" % (user["user_id"]),
@@ -97,7 +88,7 @@ print ("""
     </head>
     <body>
         <p>
-            """ + print open("navigation.html").read() + """
+            """ + open("navigation.html").read() + """
         </p>
         <p>
             This page lists users who answered [windows-8] questions during the <a href="http://win8challenge.com">Windows 8 Challenge</a> hosted by Super User/Stack Exchange. This site is not affiliated with Super User or Stack Exchange in any way. All data is obtained through the Stack Exchange API. Any questions, suggestions, problems, etc., should go to the <a href="http://meta.superuser.com/questions/5801/so-heres-a-stats-site-for-the-challenge">post</a> on Meta Super User.

@@ -75,7 +75,7 @@ print ("""
     </head>
     <body>
         <p>
-            """ + print open("navigation.html").read() + """
+            """ + open("navigation.html").read() + """
         </p>
         <p>
             This page lists users who answered [windows-8] questions during the <a href="http://win8challenge.com">Windows 8 Challenge</a> hosted by Super User/Stack Exchange. This site is not affiliated with Super User or Stack Exchange in any way. All data is obtained through the Stack Exchange API. Any questions, suggestions, problems, etc., should go to the <a href="http://meta.superuser.com/questions/5801/so-heres-a-stats-site-for-the-challenge">post</a> on Meta Super User.

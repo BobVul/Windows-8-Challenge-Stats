@@ -237,7 +237,7 @@ print ("""
     </head>
     <body>
         <p>
-            """ + print open("navigation.html").read() + """
+            """ + open("navigation.html").read() + """
         </p>
         <p>
             <b>The challenge has ended! These stats will no longer be updated.</b>
