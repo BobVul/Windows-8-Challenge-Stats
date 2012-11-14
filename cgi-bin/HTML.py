@@ -102,7 +102,7 @@ class TableCell (object):
 
     Attributes:
     - text: text in the cell (may contain HTML tags). May be any object which
-            can be converted to a string using str().
+            can be converted to a string using unicode().
     - header: bool, false for a normal data cell (td), true for a header cell (th)
     - bgcolor: str, background color
     - width: str, width
@@ -146,7 +146,7 @@ class TableCell (object):
         for attr in self.attribs:
             attribs_str += ' %s="%s"' % (attr, self.attribs[attr])
         if self.text or self.text == 0:
-            text = str(self.text)
+            text = unicode(self.text)
         else:
             # An empty cell should at least contain a non-breaking space
             text = '&nbsp;'
@@ -211,7 +211,7 @@ class TableRow (object):
             # apply column style if specified:
             if self.col_styles and cell.style==None:
                 cell.style = self.col_styles[col]
-            result += str(cell)
+            result += unicode(cell)
         result += ' </tr>\n'
         return result
 
@@ -306,9 +306,9 @@ class Table (object):
         # First insert a header row if specified:
         if self.header_row:
             if not isinstance(self.header_row, TableRow):
-                result += str(TableRow(self.header_row, header=True))
+                result += unicode(TableRow(self.header_row, header=True))
             else:
-                result += str(self.header_row)
+                result += unicode(self.header_row)
         # Then all data rows:
         for row in self.rows:
             if not isinstance(row, TableRow):
@@ -325,7 +325,7 @@ class Table (object):
                 row.col_valign = self.col_valign
             if self.col_styles and not row.col_styles:
                 row.col_styles = self.col_styles
-            result += str(row)
+            result += unicode(row)
         result += '</table>'
         return result
 
@@ -368,7 +368,7 @@ class List (object):
         else:            tag = 'ul'
         result = '<%s%s>\n' % (tag, attribs_str)
         for line in self.lines:
-            result += ' <li>%s\n' % str(line)
+            result += ' <li>%s\n' % unicode(line)
         result += '</%s>\n' % tag
         return result
 
@@ -414,11 +414,11 @@ def link(text, url):
 
 def table(*args, **kwargs):
     'return HTML code for a table as a string. See Table class for parameters.'
-    return str(Table(*args, **kwargs))
+    return unicode(Table(*args, **kwargs))
 
 def list(*args, **kwargs):
     'return HTML code for a list as a string. See List class for parameters.'
-    return str(List(*args, **kwargs))
+    return unicode(List(*args, **kwargs))
 
 
 #=== MAIN =====================================================================
@@ -434,8 +434,8 @@ if __name__ == '__main__':
     t.rows.append(TableRow(['A', 'B', 'C'], header=True))
     t.rows.append(TableRow(['D', 'E', 'F']))
     t.rows.append(('i', 'j', 'k'))
-    f.write(str(t) + '<p>\n')
-    print str(t)
+    f.write(unicode(t) + '<p>\n')
+    print unicode(t)
     print '-'*79
 
     t2 = Table([
@@ -443,14 +443,14 @@ if __name__ == '__main__':
             ['3', '4']
         ], width='100%', header_row=('col1', 'col2'),
         col_width=('', '75%'))
-    f.write(str(t2) + '<p>\n')
+    f.write(unicode(t2) + '<p>\n')
     print t2
     print '-'*79
 
     t2.rows.append(['5', '6'])
     t2.rows[1][1] = TableCell('new', bgcolor='red')
     t2.rows.append(TableRow(['7', '8'], attribs={'align': 'center'}))
-    f.write(str(t2) + '<p>\n')
+    f.write(unicode(t2) + '<p>\n')
     print t2
     print '-'*79
 
@@ -480,14 +480,14 @@ if __name__ == '__main__':
             yield (x, x*x)
 
     t = Table(rows=gen_table_squares(10), header_row=('x', 'square(x)'))
-    f.write(str(t) + '<p>\n')
+    f.write(unicode(t) + '<p>\n')
 
     print '-'*79
     l = List(['aaa', 'bbb', 'ccc'])
-    f.write(str(l) + '<p>\n')
+    f.write(unicode(l) + '<p>\n')
     l.ordered = True
-    f.write(str(l) + '<p>\n')
+    f.write(unicode(l) + '<p>\n')
     l.start=10
-    f.write(str(l) + '<p>\n')
+    f.write(unicode(l) + '<p>\n')
 
     f.close()
