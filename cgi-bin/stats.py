@@ -237,32 +237,41 @@ print ("""
     </head>
     <body>
         <p>
+            <b>The challenge has ended! These stats will no longer be updated.</b>
+        </p>
+        <hr>
+        <p>
             This page is an attempt to compile and display some real-time stats on [windows-8] questions asked during the <a href="http://win8challenge.com">Windows 8 Challenge</a> hosted by Super User/Stack Exchange. This site is not affiliated with Super User or Stack Exchange in any way. All data is obtained through the Stack Exchange API. Any questions, suggestions, problems, etc., should go to the <a href="http://meta.superuser.com/questions/5801/so-heres-a-stats-site-for-the-challenge">post</a> on Meta Super User.
         </p>
         <p>
-            <b>Only posts created since the challenge started (2012-10-19) are counted.</b>
+            <b>Only posts created since the challenge started (2012-10-19) are counted. Posts after challenge end (2012-11-09) are not counted.</b>
         </p>
 """ + HTML.table(table) + """
         <form name="selectuser" action="/cgi-bin/stats.py" method="get">
             <p>
                 Filter specific user: <br>
                 user_id (separate with commas, max 10): <input type="text" name="user_ids" value=\"""" + (",".join(user_ids) if user_ids else "") + """\"> 
-                <table>
-                    <tr><td>show:</td><td><input type="checkbox" name="show" value="total" """ + ("checked" if show["total"] else "") + """>total</td></tr>
-                    <tr><td></td><td><input type="checkbox" name="show" value="open" """ + ("checked" if show["open"] else "") + """>open</td></tr>
-                    <tr><td></td><td><input type="checkbox" name="show" value="closed" """ + ("checked" if show["closed"] else "") + """>closed</td></tr>
-                    <tr><td></td><td><input type="checkbox" name="show" value="proportions" """ + ("checked" if show["proportions"] else "") + """>proportion to total</td></tr>
-                </table>
+            </p>
+            <table>
+                <tr><td>show:</td><td><input type="checkbox" name="show" value="total" """ + ("checked" if show["total"] else "") + """>total</td></tr>
+                <tr><td></td><td><input type="checkbox" name="show" value="open" """ + ("checked" if show["open"] else "") + """>open</td></tr>
+                <tr><td></td><td><input type="checkbox" name="show" value="closed" """ + ("checked" if show["closed"] else "") + """>closed</td></tr>
+                <tr><td></td><td><input type="checkbox" name="show" value="proportions" """ + ("checked" if show["proportions"] else "") + """>proportion to total</td></tr>
+            </table>
+            <p>
                 <input type="submit" value="Submit">
             </p>
         </form>
         <p>
-            Or <a href="/cgi-bin/stats.py?user_id=nonexistent">filter posts with no linked user</a>.
+            Or <a href="/cgi-bin/stats.py?user_id=nonexistent">filter posts with no linked user</a> by using the id 'nonexistent'.
         </p>
         <p>
 """ + "        Data last fetched %s (%s ago)"
                                  % (time.strftime("%Y-%m-%d %H:%M:%S UTC", time.gmtime(fetchtime)),
                                     TimeDiff.TimeDiffString(curtime, fetchtime)) + """
+        </p>
+        <p>
+            <small><a href="/cgi-bin/stats.py?user_ids=36744%2C10165%2C163760%2Cnonexistent%2Cru3tuxf&amp;show=total&amp;show=open&amp;show=closed&amp;show=proportions">test page</a></small>
         </p>
     </body>
 </html>
