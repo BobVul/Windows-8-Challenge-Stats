@@ -54,26 +54,26 @@ import HTML
 
 table = []
 
-table.append([HTML.TableCell("Deleted", header=True, attribs={"colspan":4})])
+table.append([HTML.TableCell("Deleted", header=True, valign="middle", attribs={"colspan":4})])
 
 for user_id, user in deleted.iteritems(): # user_id may be absent from shallow_user, so cannot be relied upon
-    table.append(["<img src=%s>Gravatar</img>" % (user.get("profile_image", "")),
-                  "<a href=%s>%s</a>" % (user.get("link", ""), user.get("display_name", "")),
+    table.append(["<img src=\"%s\" alt=\"Gravatar\"></img>" % (user.get("profile_image", "")),
+                  "<a href=\"%s\">%s</a>" % (user.get("link", ""), user.get("display_name", "")),
                   "user_id: %s" % (user_id),
                   "user_type: %s" % (user.get("user_type", "does_not_exist"))])
 
-table.append([HTML.TableCell("Suspended", header=True, attribs={"colspan":4})])
+table.append([HTML.TableCell("Suspended", header=True, valign="middle", attribs={"colspan":4})])
 
 for user in suspended.itervalues():
-    table.append(["<img src=%s>Gravatar</img>" % (user["profile_image"]),
-                  "<a href=%s>%s</a>" % (user["link"], user["display_name"]),
+    table.append(["<img src=\"%s\" alt=\"Gravatar\"></img>" % (user["profile_image"]),
+                  "<a href=\"%s\">%s</a>" % (user["link"], user["display_name"]),
                   "user_id: %s" % (user["user_id"]),
                   "user_type: %s" % (user["user_type"])])
 
-table.append([HTML.TableCell("Active", header=True, attribs={"colspan":4})])
+table.append([HTML.TableCell("Active", header=True, valign="middle", attribs={"colspan":4})])
 for user in active.itervalues():
-    table.append(["<img src=%s>Gravatar</img>" % (user["profile_image"]),
-                  "<a href=%s>%s</a>" % (user["link"], user["display_name"]),
+    table.append(["<img src=\"%s\" alt=\"Gravatar\"></img>" % (user["profile_image"]),
+                  "<a href=\"%s\">%s</a>" % (user["link"], user["display_name"]),
                   "user_id: %s" % (user["user_id"]),
                   "user_type: %s" % (user["user_type"])])
 
@@ -97,13 +97,16 @@ print ("""
     </head>
     <body>
         <p>
+            """ + print open("navigation.html").read() + """
+        </p>
+        <p>
             This page lists users who answered [windows-8] questions during the <a href="http://win8challenge.com">Windows 8 Challenge</a> hosted by Super User/Stack Exchange. This site is not affiliated with Super User or Stack Exchange in any way. All data is obtained through the Stack Exchange API. Any questions, suggestions, problems, etc., should go to the <a href="http://meta.superuser.com/questions/5801/so-heres-a-stats-site-for-the-challenge">post</a> on Meta Super User.
         </p>
         <p>
-            Users who were suspended (as reported by the API) or deleted (cannot be found via the API) are listed first. Apart from that, the order is random. Not all users would have qualified for the challenge; only those who posted during the time period are counted. Some winners (especially of level 1/2) may not be shown, since they may have won on upvotes from older posts (NB: I'm not sure whether such upvotes actually count).
+            Users who were suspended (as reported by the API) or deleted (cannot be found via the API) are listed here. The order is random. Not all users would have qualified for the challenge; only those who posted during the time period are counted. Some winners (especially of level 1/2) may not be shown, since they may have won on upvotes from older posts (NB: I'm not sure whether such upvotes actually count).
         </p>
         <p>
-            <b>Only posts created since the challenge started (2012-10-19) are counted. Posts after challenge end (2012-11-09) are not counted.</b>
+            <b>Only posts created since the challenge started (2012-10-19) are counted. Posts after challenge end (2012-11-09) are not counted. Any user who got at least one upvote on a [windows-8] post in that time period are counted.</b>
         </p>
 """ + HTML.table(table) + """
         <p>
