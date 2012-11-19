@@ -106,9 +106,9 @@ def GetData():
                         answers.append(answer)
 
         if has_more and "backoff" in wrapper:
-            print "Backing off for %d seconds" % wrapper[backoff]
+            print "Backing off for %d seconds" % wrapper["backoff"]
             sys.stdout.flush()
-            time.sleep(backoff)
+            time.sleep(int(wrapper["backoff"]))
 
         page += 1
 

@@ -99,8 +99,8 @@ for user_id_chunk in itertools.izip_longest(*[shallow_users.iterkeys()]*100):
         users[str(user["user_id"])] = user
         
     if "backoff" in wrapper:
-        print "Backing off for %d seconds" % wrapper[backoff]
+        print "Backing off for %d seconds" % wrapper["backoff"]
         sys.stdout.flush()
-        time.sleep(backoff)
+        time.sleep(int(wrapper["backoff"]))
         
 open("users.json", "w").write(json.dumps(users))
